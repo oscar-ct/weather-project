@@ -5,7 +5,7 @@ let sanAntonioWeatherCoordinates = [29.4252, -98.4916];
 
 console.log(USD(EURO))
 
-function getForecast () {
+const getForecast = () => {
     $.get('https://api.openweathermap.org/data/2.5/onecall', {
         lat: sanAntonioWeatherCoordinates[0],
         lon: sanAntonioWeatherCoordinates[1],
@@ -17,5 +17,17 @@ function getForecast () {
     });
 }
 
+const getLocation = () => {
+    $.get('https://api.openweathermap.org/geo/1.0/direct', {
+        q: 'San Antonio',
+        appid: USD(EURO),
+    }).done(function (data) {
+        console.log(data)
+    });
+}
+getLocation();
+
+// https://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
+//     https://api.openweathermap.org/geo/1.0/zip?zip=E14,GB&appid={API key}
 getForecast();
 
