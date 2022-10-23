@@ -17,17 +17,18 @@ const getForecast = (lat, lon) => {
 
 const getLocationByName = (cityName) => {
     $.get('https://api.openweathermap.org/geo/1.0/direct', {
-        limit: 1,
+        limit: 5,
         q: `${cityName}, ${ISO3166Alpha2CountryCode}`,
         appid: USD(milli),
     }).done(function (data) {
 
-        const locationHTML = `<div>
-        <div><h1>${data[0].name}</h1></div>
-        <div><h1>${data[0].state}</h1></div>
+        const locationHTML = (data) => `<div>
+        <div><h1>${data.name}</h1></div>
+        <div><h1>${data.state}</h1></div>
         </div>`;
 
-        document.getElementById('output').innerHTML = locationHTML;
+        document.getElementById('output').innerHTML = data.map(locationHTML).join('');
+
         getForecast(data[0].lat, data[0].lon);
     });
 }
