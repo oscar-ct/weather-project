@@ -11,9 +11,49 @@ const getForecast = (lat, lon) => {
         units: 'imperial'
     }).done(function (data) {
         console.log(data);
+        document.getElementById('unordered-list').innerHTML = '';
     });
 }
 
+const weatherContainer = `<div id="weather-card">
+    <div id="current-container-1">
+        <div id="current-icon"></div>
+        <div id="current-container-2">
+            <div id="current-condition"></div>
+            <div id="current-location"></div>
+        </div>
+        <div id="current-container-3">
+            <div id="current-temp"></div>
+            <div id="current-high"></div>
+            <div id="current-low"></div>
+        </div>
+    </div>
+    <div id="5-day-forecast"></div>
+</div>`;
+
+const weatherForecast = (data) => `<div>
+    <div class="forecast-day"></div>
+    <div class="forecast-icon"></div>
+    <div class="forecast-high"></div>
+    <div class="forecast-low"></div>
+</div>`;
+
+
+
+const mapElementToUl = (data) => `<li class="city" onclick="getForecast(${data.lat}, ${data.lon})">${data.name}, ${data.state}</li>`
+
+
+document.getElementById('search').addEventListener('keyup', function (e) {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Backspace') {
+        const searchTerm = document.getElementById('search').value;
+        console.log(searchTerm);
+
+        if (searchTerm.length > 3) {
+            getLocationByName(searchTerm);
+        }
+    }
+
+});
 
 const getLocationByName = (cityName) => {
     $.get('https://api.openweathermap.org/geo/1.0/direct', {
@@ -21,15 +61,13 @@ const getLocationByName = (cityName) => {
         q: `${cityName}, ${ISO3166Alpha2CountryCode}`,
         appid: USD(milli),
     }).done(function (data) {
-
-        const locationHTML = (data) => `<div>
-        <div><h1>${data.name}</h1></div>
-        <div><h1>${data.state}</h1></div>
-        </div>`;
-
-        document.getElementById('output').innerHTML = data.map(locationHTML).join('');
-
-        getForecast(data[0].lat, data[0].lon);
+        // const locationHTML = (data) => `<div onclick="getForecast(${data.lat}, ${data.lon})">
+        // <div><h1>${data.name}</h1></div>
+        // <div><h1>${data.state}</h1></div>
+        // </div>`;
+        // document.getElementById('output').innerHTML = data.map(locationHTML).join('');
+        document.getElementById('unordered-list').innerHTML = data.map(mapElementToUl).join('');
+        console.log(data)
     });
 }
 
