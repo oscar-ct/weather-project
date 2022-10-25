@@ -12,20 +12,38 @@ document.getElementById('search').addEventListener('keyup', function (e) {
     }
 });
 
+const reverseGeocode = (lat, lon) => {
+    fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${USD(milli)}`).then(function (response) {
+      return response.json();
+  }).then(function (data) {
+      const nameAndState = `${data[0].name}, ${data[0].state}`;
+      getForecast(lat, lon, nameAndState);
+  });
+}
+const setPosition = (position) => {
+    console.log(position)
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    reverseGeocode(lat, lon);
+}
+
+if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(setPosition)
+} else {
+    console.log('Browser doesnt support geolocation')
+}
+
 // const weatherIcon = (code) => {
 //     return '<img src="https://openweathermap.org/img/w/'+ code +'.png">'
 // }
 const weatherIcon = (code) => {
     return '<img src="icons/'+ code +'.png">'
 }
-const getForecast = (lat, lon, string) => {
-    $.get('https://api.openweathermap.org/data/2.5/onecall', {
-        lat: lat,
-        lon: lon,
-        appid: USD(milli),
-        exclude: 'minutely,hourly,alerts',
-        units: 'imperial'
-    }).done(function (data) {
+
+const getForecast = (lat, lon, location) => {
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${USD(milli)}&units=imperial`).then(function (response){
+        return response.json();
+    }).then(function (data) {
         console.log(data);
 
         document.getElementById('unordered-list').innerHTML = '';
@@ -35,7 +53,7 @@ const getForecast = (lat, lon, string) => {
                 <div id="cw-icon"> ${weatherIcon(data.current.weather[0].icon)} </div>
                 <div id="cw-container-2">
                     <div id="cw-condition">${capitalizeName(data.current.weather[0].description)}</div>
-                    <div id="cw-location">${string}</div>
+                    <div id="cw-location">${location}</div>
                 </div>
                 <div id="cw-container-3">
                     <div id="cw-temp">${data.current.temp}</div>
@@ -47,7 +65,6 @@ const getForecast = (lat, lon, string) => {
             </div>
             <div id="d-forecast">${data.daily.map(weatherForecast).join('')}</div>
         </div>`;
-
     });
 }
 
@@ -72,11 +89,9 @@ const weatherForecast = (data) => `<div>
 
 
 const getLocationByName = (cityName) => {
-    $.get('https://api.openweathermap.org/geo/1.0/direct', {
-        limit: 5,
-        q: `${cityName}, ${ISO3166Alpha2CountryCode}`,
-        appid: USD(milli),
-    }).done(function (data) {
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName},${ISO3166Alpha2CountryCode}&limit=5&appid=${USD(milli)}`).then(function (resp) {
+        return resp.json();
+    }).then(function (data) {
         // relevant search drop-down suggestions
         const mapElementToUl = (data) => `<li class="city" onclick="getForecast('${data.lat}', '${data.lon}', '${data.name}, ${data.state}')">${data.name}, ${data.state}</li>`;
         document.getElementById('unordered-list').innerHTML = data.map(mapElementToUl).join('');
@@ -88,16 +103,6 @@ const getLocationByName = (cityName) => {
     });
 }
 
-
-const getLocationByZip = (zipCode) => {
-    $.get('https://api.openweathermap.org/geo/1.0/zip', {
-        zip: `${zipCode},${ISO3166Alpha2CountryCode}`,
-        appid: USD(milli),
-    }).done(function (data) {
-        console.log(data);
-        getForecast(data.lat, data.lon);
-    });
-}
 
 
 
