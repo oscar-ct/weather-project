@@ -8,6 +8,7 @@ const clearTest = () => {
         document.getElementById('clearButton').style.display = 'none'
     });
 }
+
 document.getElementById('search').addEventListener('keyup', function (e) {
     let searchTerm = document.getElementById('search').value;
     const check = e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Enter' && e.key !== 'Backspace';
@@ -96,7 +97,7 @@ const getForecast = (lat, lon, location) => {
                 </div>
             </div>
             <div id="cw-container-5">
-                <div><a href='#/' id='expAll' class='col'>Expand All</a></div>
+                <div><button id='expAll' class='col'>Expand All</button></div>
             </div>
             <div id="d-forecast">${data.daily.map(weatherForecast).join('')}</div>
         </div>`;
@@ -135,8 +136,10 @@ const expandAll = () => {
         Array.from(details).forEach(function(obj, idx) {
             if (e.currentTarget.classList.contains('exp')) {
                 obj.open = true;
+                xa.innerText = 'Close All'
             } else {
                 obj.removeAttribute('open');
+                xa.innerText = 'Expand All'
             }
         });
 
