@@ -73,7 +73,7 @@ const getForecast = (lat, lon, location) => {
             <div id="cw-container-1">
                 <div id="cw-icon"> ${weatherIcon(data.current.weather[0].icon)} </div>
                 <div id="cw-container-2">
-                    <div id="cw-condition">${capitalizeName(data.current.weather[0].description)}</div>
+                    <div id="cw-condition">${capitalizeName(data.current.weather[0].main)}</div>
                     <div id="cw-location">${location}</div>
                 </div>
                 <div id="cw-container-3">
