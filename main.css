@@ -256,6 +256,7 @@ details:hover {
         margin-right: 5px;
     }
     #pageTitle span{
+        margin-left: 0px;
         display: flex;
         justify-content: center;
         font-size: 28px;
