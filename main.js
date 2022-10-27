@@ -2,11 +2,22 @@
 const ISO3166Alpha2CountryCode = 'US';
 const milli = '0110010001100010001110010011010000110101011000010011001100110111011001010110011000110101011000100011001000110111001101000011010100110011001110010011100001100110011001100110011001100110001101110011010101100001011001000011001100110010001110010110000101100001';
 
-
+const clearTest = () => {
+    document.getElementById('clearButton').addEventListener('click', function () {
+        document.getElementById('search').value = "";
+        document.getElementById('clearButton').style.display = 'none'
+    });
+}
 document.getElementById('search').addEventListener('keyup', function (e) {
-    const searchTerm = document.getElementById('search').value;
+    let searchTerm = document.getElementById('search').value;
     const check = e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Enter' && e.key !== 'Backspace';
     console.log(searchTerm);
+
+    if (searchTerm !== "") {
+        document.getElementById('clearButton').style.display = 'revert'
+    } else {
+        document.getElementById('clearButton').style.display = 'none'
+    }
 
     if (searchTerm.length > 3 && isNaN(parseInt(searchTerm)) && check) {
         getLocationByName(searchTerm, false);
