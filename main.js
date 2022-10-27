@@ -21,7 +21,7 @@ const runWeather = () => {
     const searchTerm = document.getElementById('search').value;
     if (!isNaN(parseInt(searchTerm)) && searchTerm.length === 5) {
         getLocationByZip(searchTerm, true)
-    } else {
+    } else if (searchTerm.length > 3 && isNaN(parseInt(searchTerm))) {
         getLocationByName(searchTerm, true);
     }
 }
@@ -79,16 +79,18 @@ const getForecast = (lat, lon, location) => {
                 <div id="cw-container-3">
                     <div id="cw-temp">${data.current.temp.toFixed(0)}&#176</div>
                     <div id="cw-container-4">
-                        <div class="cw-high-low">${data.daily[0].temp.max.toFixed(0)}&#176</div>
-                        <div class="cw-high-low">${data.daily[0].temp.min.toFixed(0)}&#176</div>
+                        <div class="cw-high">${data.daily[0].temp.max.toFixed(0)}&#176</div>
+                        <div class="cw-low">${data.daily[0].temp.min.toFixed(0)}&#176</div>
                     </div>
                 </div>
             </div>
+            <div id="cw-container-5">
+                <div><a href='#/' id='expAll' class='col'>Expand All</a></div>
+            </div>
             <div id="d-forecast">${data.daily.map(weatherForecast).join('')}</div>
         </div>`;
-    });
+    }).then(expandAll);
 }
-
 
 
 const day = (dt) => {
@@ -97,7 +99,7 @@ const day = (dt) => {
     return days[date.getDay()];
 }
 
-const weatherForecast = (data) => `<div class="sm-weather-card">
+const weatherForecast = (data) => `<div class="sm-weather-card divider">
     <div class="forecast-day">${day(data.dt)}</div>
     <div class="forecast-icon">${weatherIcon(data.weather[0].icon)}</div>
     <div class="forecast-description">${capitalizeName(data.weather[0].description)}</div>
@@ -112,6 +114,23 @@ const weatherForecast = (data) => `<div class="sm-weather-card">
     </details>
 </div>`;
 
+
+const expandAll = () => {
+    const xa = document.getElementById('expAll');
+    xa.addEventListener('click', function(e) {
+        e.currentTarget.classList.toggle('exp');
+        e.currentTarget.classList.toggle('col');
+        const details = document.querySelectorAll('details');
+        Array.from(details).forEach(function(obj, idx) {
+            if (e.currentTarget.classList.contains('exp')) {
+                obj.open = true;
+            } else {
+                obj.removeAttribute('open');
+            }
+        });
+
+    }, false);
+}
 
 
 
@@ -175,9 +194,9 @@ const capitalizeName = (str) => {
 
 const mmConverter = (mm) => {
     if (Math.max(mm/25.4).toFixed(2) < .1) {
-        return 0.1
+        return '0.1'
     } else if (isNaN(mm)) {
-        return 0.0
+        return '0.0'
     } else {
         return Math.max(mm/25.4).toFixed(1)
     }
