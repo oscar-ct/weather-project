@@ -173,6 +173,13 @@ details:hover {
         border-bottom: 2px solid #049cdb;
         padding-top: 20px;
     }
+    #cw-location {
+        font-size: 16px;
+    }
+    #cw-container-2 {
+        margin-left: 0;
+
+    }
 
 
 }
