@@ -291,5 +291,8 @@ details:hover {
     #cw-temp {
         font-size: 26px;
     }
+    #cw-icon img {
+        margin-left: 5px;
+    }
 
 }
