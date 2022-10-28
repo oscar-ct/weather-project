@@ -251,8 +251,14 @@ details:hover {
     #cw-location {
         font-size: 16px;
     }
+    .cw-high {
+        font-size: 16px;
+    }
+    .cw-low {
+        font-size: 14px;
+    }
     #cw-container-2 {
-        margin-left: 0;
+        margin-left: 5px;
 
     }
     body {
@@ -274,6 +280,14 @@ details:hover {
     .search-container {
 
     }
-
+    #cw-condition {
+        font-size: 26px;
+    }
+    #cw-icon img {
+        height: 100px;
+    }
+    #cw-temp {
+        font-size: 26px;
+    }
 
 }
