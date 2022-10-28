@@ -2,6 +2,10 @@
 const ISO3166Alpha2CountryCode = 'US';
 const milli = '0110010001100010001110010011010000110101011000010011001100110111011001010110011000110101011000100011001000110111001101000011010100110011001110010011100001100110011001100110011001100110001101110011010101100001011001000011001100110010001110010110000101100001';
 
+document.getElementById('simplyWeather').addEventListener('click', function () {
+   alert('Thanks for checking out my site, hope you enjoy! \n- Oscar')
+});
+
 const clearTest = () => {
         document.getElementById('search').value = "";
         document.getElementById('unordered-list').innerHTML = '';
@@ -75,11 +79,31 @@ const weatherIcon = (code) => {
 
 const getForecast = (lat, lon, location) => {
     document.getElementById('unordered-list').innerHTML = '';
-    // document.getElementById('search').value = location;
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${USD(milli)}&units=imperial`).then(function (response){
         return response.json();
     }).then(function (data) {
         console.log(data);
+        const options = {
+            timeZone: data.timezone,
+            hour12: false,
+            hour:  "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        };
+        const currentSunrise = new Date(data.current.sunrise * 1000).toLocaleTimeString("en-US",options);
+        const currentSunset = new Date(data.current.sunset * 1000).toLocaleTimeString("en-US",options);
+        const currentTime = new Date(data.current.dt * 1000).toLocaleTimeString("en-US",options);
+        const currentHour = hour(currentTime);
+        const sunriseHour = hour(currentSunrise);
+        const sunsetHour = hour(currentSunset);
+        if (currentHour < sunriseHour || currentHour > sunsetHour) {
+            document.querySelector('body').style.backgroundColor = '#293251';
+            document.getElementById('simplyWeather').style.color = 'white';
+        } else {
+            document.querySelector('body').style.backgroundColor = '#7ba2b1';
+            document.getElementById('simplyWeather').style.color = 'white';
+        }
+
         document.getElementById('output').innerHTML = `<div id="weather-card">
             <div id="cw-container-1">
                 <div id="cw-icon"> ${weatherIcon(data.current.weather[0].icon)} </div>
@@ -103,6 +127,9 @@ const getForecast = (lat, lon, location) => {
     }).then(expandAll);
 }
 
+const hour = (time) => {
+    return parseInt(time[0] + time[1])
+}
 
 const day = (dt) => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -155,16 +182,6 @@ const getLocationByName = (cityName, boolean) => {
         // relevant search drop-down suggestions
         const mapElementToUl = (data) => `<li class="city" onclick="getForecast('${data.lat}', '${data.lon}', '${data.name}, ${data.state}')">${data.name}, ${data.state}</li>`;
         document.getElementById('unordered-list').innerHTML = data.map(mapElementToUl).join('');
-        // search button functionality
-
-        // document.getElementById('search-btn').addEventListener('click', function () {
-        //     getForecast(data[0].lat, data[0].lon, `${data[0].name}, ${data[0].state}`);
-        // });
-        // document.addEventListener('keydown', function (e) {
-        //     if (e.key === 'Enter') {
-        //         getForecast(data[0].lat, data[0].lon, `${data[0].name}, ${data[0].state}`);
-        //     }
-        // });
         if (data.length !== 0 && boolean) {
             getForecast(data[0].lat, data[0].lon, `${data[0].name}, ${data[0].state}`);
         }
@@ -178,16 +195,6 @@ const getLocationByZip = (zip, boolean) => {
     }).then(function (data) {
         console.log(data);
         document.getElementById('unordered-list').innerHTML = `<li class="city" onclick="getForecast('${data.lat}', '${data.lon}', '${data.name}, ${data.zip}')">${data.name}, ${data.zip}</li>`;
-
-        // const cityAndState = `${data.name}, ${data.zip}`;
-        // document.getElementById('search-btn').addEventListener('click', function () {
-        //     getForecast(data.lat, data.lon, cityAndState);
-        // });
-        // document.addEventListener('keypress', function (e) {
-        //     if (e.key === 'Enter') {
-        //         getForecast(data.lat, data.lon, cityAndState);
-        //     }
-        // });
         if (data.length !== 0 && boolean) {
             getForecast(data.lat, data.lon, `${data.name}, ${data.zip}`);
         }
