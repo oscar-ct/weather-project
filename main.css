@@ -152,7 +152,9 @@ body {
     display: flex;
     justify-content: start;
 }
-
+#cw-icon img {
+    margin-left: 25px;
+}
 #cw-icon img {
 }
 
@@ -176,7 +178,7 @@ body {
     font-size: 18px;
 }
 #cw-condition {
-    font-size: 36px;
+    font-size: 32px;
 }
 #cw-container-3 {
     display: flex;
@@ -185,7 +187,7 @@ body {
     /*margin-left: 400px;*/
 }
 #cw-temp {
-    font-size: 36px;
+    font-size: 32px;
     text-align: center;
 }
 .cw-high {
