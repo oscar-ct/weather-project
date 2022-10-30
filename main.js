@@ -144,11 +144,13 @@ const weatherForecast = (data) => `<div class="sm-weather-card divider">
     <div class="forecast-high">${data.temp.max.toFixed(0)}&#176</div>
     <div class="forecast-low">${data.temp.min.toFixed(0)}&#176</div>
     <details class="forecast-details">
-    <div>Rainfall: ${mmConverter(data.rain)}"</div>
+    <div>Chance of rain: ${(data.pop * 100).toFixed(0)}%</div>
     <div>Wind: ${data.wind_speed}mph</div>
     <div>Humidity: ${data.humidity}%</div>
     <div>Sunrise: ${unixTimeConverter(data.sunrise)}</div>
     <div>Sunset: ${unixTimeConverter(data.sunset)}</div>
+    <div>Moonrise: ${unixTimeConverter(data.moonrise)}</div>
+    <div>Moonset: ${unixTimeConverter(data.moonset)}</div>
     </details>
 </div>`;
 
@@ -223,5 +225,12 @@ const mmConverter = (mm) => {
 }
 
 const unixTimeConverter = (unix) => {
-  return new Date(unix * 1000).toLocaleTimeString("en-US")
+    const time = new Date(unix * 1000).toLocaleTimeString("en-US").split('');
+    const newTime = [];
+    for (let i = 0; i < time.length; i++) {
+        if (i !== time.length - 6 &&i !== time.length - 5 && i !== time.length - 4) {
+            newTime.push(time[i]);
+        }
+    }
+    return newTime.join('')
 }
