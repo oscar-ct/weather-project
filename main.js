@@ -108,8 +108,8 @@ const getForecast = (lat, lon, location) => {
             <div id="cw-container-1">
                 <div id="cw-icon"> ${weatherIcon(data.current.weather[0].icon)} </div>
                 <div id="cw-container-2">
-                    <div id="cw-condition">${capitalizeName(data.current.weather[0].description)}</div>
-                    <div id="cw-condition-mobile">${capitalizeName(data.current.weather[0].description)}</div>
+                    <div id="cw-condition">${capitalizeName(data.current.weather[0].main)}</div>
+                    <div id="cw-condition-mobile">${capitalizeName(data.current.weather[0].main)}</div>
                     <div id="cw-location">${location}</div>
                 </div>
                 <div id="cw-container-3">
@@ -127,12 +127,12 @@ const getForecast = (lat, lon, location) => {
             <div id="d-forecast">${data.daily.map(weatherForecast).join('')}</div>
         </div>`;
 
-        if (data.current.weather[0].description.length < 12) {
+        if (data.current.weather[0].main.length < 12) {
             document.getElementById('cw-condition-mobile').style.fontSize = '32px';
             document.getElementById('cw-temp-mobile').style.fontSize = '32px';
         } else {
-            document.getElementById('cw-condition-mobile').style.fontSize = '28px';
-            document.getElementById('cw-temp-mobile').style.fontSize = '28px';
+            document.getElementById('cw-condition-mobile').style.fontSize = '26px';
+            document.getElementById('cw-temp-mobile').style.fontSize = '26px';
         }
     }).then(expandAll);
 
