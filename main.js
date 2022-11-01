@@ -131,8 +131,8 @@ const getForecast = (lat, lon, location) => {
             document.getElementById('cw-condition-mobile').style.fontSize = '32px';
             document.getElementById('cw-temp-mobile').style.fontSize = '32px';
         } else {
-            document.getElementById('cw-condition-mobile').style.fontSize = '26px';
-            document.getElementById('cw-temp-mobile').style.fontSize = '26px';
+            document.getElementById('cw-condition-mobile').style.fontSize = '28px';
+            document.getElementById('cw-temp-mobile').style.fontSize = '28px';
         }
     }).then(expandAll);
 
