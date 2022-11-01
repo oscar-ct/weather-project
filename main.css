@@ -180,6 +180,9 @@ body {
 #cw-condition {
     font-size: 32px;
 }
+#cw-condition-mobile {
+    display: none;
+}
 #cw-container-3 {
     display: flex;
     flex-direction: column;
@@ -189,6 +192,9 @@ body {
 #cw-temp {
     font-size: 32px;
     text-align: center;
+}
+#cw-temp-mobile {
+    display: none;
 }
 .cw-high {
     font-size: 18px;
@@ -283,13 +289,20 @@ details:hover {
 
     }
     #cw-condition {
-        font-size: 26px;
+        display: none;
+    }
+    #cw-condition-mobile {
+        display: revert;
     }
     #cw-icon img {
         height: 100px;
     }
     #cw-temp {
-        font-size: 26px;
+        display: none;
+    }
+    #cw-temp-mobile {
+        display: revert;
+        text-align: center;
     }
     #cw-icon img {
         margin-left: 0;

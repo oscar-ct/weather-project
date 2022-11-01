@@ -3,7 +3,7 @@ const ISO3166Alpha2CountryCode = 'US';
 const milli = '0110010001100010001110010011010000110101011000010011001100110111011001010110011000110101011000100011001000110111001101000011010100110011001110010011100001100110011001100110011001100110001101110011010101100001011001000011001100110010001110010110000101100001';
 
 document.getElementById('simplyWeather').addEventListener('click', function () {
-   alert('Thanks for checking out my site, hope you enjoy! \n- Oscar')
+   alert('Thanks for checking out my site, hope you enjoy! \n- Oscar');
 });
 
 const clearTest = () => {
@@ -18,9 +18,9 @@ document.getElementById('search').addEventListener('keyup', function (e) {
     console.log(searchTerm);
 
     if (searchTerm !== "") {
-        document.getElementById('clearButton').style.display = 'revert'
+        document.getElementById('clearButton').style.display = 'revert';
     } else {
-        document.getElementById('clearButton').style.display = 'none'
+        document.getElementById('clearButton').style.display = 'none';
     }
 
     if (searchTerm.length > 3 && isNaN(parseInt(searchTerm)) && check) {
@@ -65,16 +65,16 @@ const setPosition = (position) => {
 }
 
 if ('geolocation' in navigator) {
-    navigator.geolocation.getCurrentPosition(setPosition)
+    navigator.geolocation.getCurrentPosition(setPosition);
 } else {
-    console.log('Browser doesnt support geolocation')
+    console.log('Browser doesnt support geolocation');
 }
 
 // const weatherIcon = (code) => {
 //     return '<img src="https://openweathermap.org/img/w/'+ code +'.png">'
 // }
 const weatherIcon = (code) => {
-    return '<img src="icons/'+ code +'.png">'
+    return '<img src="icons/'+ code +'.png">';
 }
 
 const getForecast = (lat, lon, location) => {
@@ -109,10 +109,12 @@ const getForecast = (lat, lon, location) => {
                 <div id="cw-icon"> ${weatherIcon(data.current.weather[0].icon)} </div>
                 <div id="cw-container-2">
                     <div id="cw-condition">${capitalizeName(data.current.weather[0].description)}</div>
+                    <div id="cw-condition-mobile">${capitalizeName(data.current.weather[0].description)}</div>
                     <div id="cw-location">${location}</div>
                 </div>
                 <div id="cw-container-3">
                     <div id="cw-temp">${data.current.temp.toFixed(0)}&#176</div>
+                    <div id="cw-temp-mobile">${data.current.temp.toFixed(0)}&#176</div>
                     <div id="cw-container-4">
                         <div class="cw-high">${data.daily[0].temp.max.toFixed(0)}&#176</div>
                         <div class="cw-low">${data.daily[0].temp.min.toFixed(0)}&#176</div>
@@ -124,7 +126,16 @@ const getForecast = (lat, lon, location) => {
             </div>
             <div id="d-forecast">${data.daily.map(weatherForecast).join('')}</div>
         </div>`;
+
+        if (data.current.weather[0].description.length < 12) {
+            document.getElementById('cw-condition-mobile').style.fontSize = '32px';
+            document.getElementById('cw-temp-mobile').style.fontSize = '32px';
+        } else {
+            document.getElementById('cw-condition-mobile').style.fontSize = '28px';
+            document.getElementById('cw-temp-mobile').style.fontSize = '28px';
+        }
     }).then(expandAll);
+
 }
 
 const hour = (time) => {
