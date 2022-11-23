@@ -61,7 +61,7 @@
 
 .search-container {
     max-width: 500px;
-    margin: 30px auto 45px auto;
+    margin: 50px auto 45px auto;
 }
 input[type="text"] {
     display: block;
@@ -150,7 +150,8 @@ body {
     width: 100%;
     min-height: 385px;
     border-radius: 7px;
-    padding: 0px 0 10px 0;
+    padding: 5px 0 10px 0;
+    margin-top: 75px;
     /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
 }
 #weather-card {
@@ -278,7 +279,9 @@ details:hover {
     }
     #cw-container-2 {
         margin-left: 5px;
-
+    }
+    #cw-container-3 {
+        margin-right: 10px;
     }
     body {
         margin-top: 0;
@@ -297,7 +300,7 @@ details:hover {
         font-size: 28px;
     }
     .search-container {
-
+        margin-top: 30px
     }
     #cw-condition {
         display: none;
